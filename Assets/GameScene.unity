@@ -528,7 +528,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b0c1d59d383c51f49badd411ef84c7b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 984cfa89812946149a3a90e243d19cc8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -890,6 +890,10 @@ MonoBehaviour:
   hpGauge2: {fileID: 0}
   hpGauge3: {fileID: 0}
   hpGauge4: {fileID: 0}
+  ASprite: {fileID: 21300000, guid: 20acf40dec9c98842a09359754a5c668, type: 3}
+  BSprite: {fileID: 21300000, guid: b0c1d59d383c51f49badd411ef84c7b0, type: 3}
+  CSprite: {fileID: 21300000, guid: 77fff1f7fff054f438460752e414ae7f, type: 3}
+  DSprite: {fileID: 21300000, guid: 984cfa89812946149a3a90e243d19cc8, type: 3}
   check: 1
 --- !u!1 &888413286
 GameObject:
@@ -1742,7 +1746,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b0c1d59d383c51f49badd411ef84c7b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 77fff1f7fff054f438460752e414ae7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
