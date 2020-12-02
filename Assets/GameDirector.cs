@@ -20,6 +20,7 @@ public class GameDirector : MonoBehaviour {
     public Sprite DSprite;
 
     GameObject Timer;
+    public GameObject Result;
     float span = 3.0f;
     float delay = 1.0f;
     float delta = 0;
@@ -42,95 +43,157 @@ public class GameDirector : MonoBehaviour {
         this.hpGauge3 = GameObject.Find("hpGauge3");
         this.hpGauge4 = GameObject.Find("hpGauge4");
         this.Timer = GameObject.Find("Timer");
+        this.Result = GameObject.Find("Result");
     }
-	public void DecreaseHp()
+    public bool CheckSuccess(GameObject player)
     {
 
+        if(player==this.player1)
+        {
+            if (player1.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite ||
+             player1.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite ||
+             player1.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if(player==this.player2)
+        {
+            if (player2.GetComponent<SpriteRenderer>().sprite == player1.GetComponent<SpriteRenderer>().sprite ||
+             player2.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite ||
+             player2.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if (player == this.player3)
+        {
+            if (player3.GetComponent<SpriteRenderer>().sprite == player1.GetComponent<SpriteRenderer>().sprite ||
+             player3.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite ||
+             player3.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if (player == this.player4)
+        {
+            if (player4.GetComponent<SpriteRenderer>().sprite == player1.GetComponent<SpriteRenderer>().sprite ||
+            player4.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite ||
+            player4.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
     }
-    
 
-	// Update is called once per frame
-	void Update () {
-        if (attack == false)
+	public void DecreaseHp(GameObject player)
+    {
+        //공격 횟수 결정
+        if (player.GetComponent<SpriteRenderer>().sprite == this.ASprite)
         {
-            if (this.delta > this.span)
-            {
-                if(player1.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite||
-                   player1.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite||
-                   player1.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
-                {
-                    
-                    attack = true;
-                    this.Timer.GetComponent<Text>().text = "공격 성공";
-                    
-                }
-                else
-                {
-                    this.Timer.GetComponent<Text>().text = "3";
-                }
-                this.delta = 0;
-            }
-            else if (this.delta > this.span / 3.0f * 2.0f)
-            {
-                this.Timer.GetComponent<Text>().text = "1";
-            }
-            else if (this.delta > this.span / 3.0f)
-            {
-                this.Timer.GetComponent<Text>().text = "2";
-            }
-            else if (this.delta==0)
-            {
-                this.Timer.GetComponent<Text>().text = "3";
-            }
-            this.delta += Time.deltaTime;
+            this.Attacktimes = 1;
         }
-        else
+        else if (player.GetComponent<SpriteRenderer>().sprite == this.BSprite)
         {
-            this.delta2 += Time.deltaTime;
-            if(this.delta2>this.delay)
+            this.Attacktimes = 2;
+        }
+        else if (player.GetComponent<SpriteRenderer>().sprite == this.CSprite)
+        {
+            this.Attacktimes = 3;
+        }
+        else if (player.GetComponent<SpriteRenderer>().sprite == this.DSprite)
+        {
+            this.Attacktimes = 4;
+        }
+        //데미지 결정
+        Damage = Random.Range(5, 11) / 100.0f;
+        
+        this.Result.GetComponent<Text>().text = Damage*100+ " 대미지!!"+Attacktimes+" 대";
+        //데미지 입히기
+        if (player==this.player1)
+        {
+            if (player.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite)
             {
-                //공격 횟수 결정
-                if(player1.GetComponent<SpriteRenderer>().sprite == this.ASprite)
-                {
-                    this.Attacktimes = 1;
-                }
-                else if(player1.GetComponent<SpriteRenderer>().sprite == this.BSprite)
-                {         
-                    this.Attacktimes = 2;
-                }
-                else if(player1.GetComponent<SpriteRenderer>().sprite == this.CSprite)
-                {
-                    this.Attacktimes = 3;
-                }
-                else if(player1.GetComponent<SpriteRenderer>().sprite == this.DSprite)
-                {
-                    this.Attacktimes = 4;
-                }
-                //데미지 결정
-                Damage = Random.Range(0.01f, 0.05f);
-                //데미지 입히기
-                if(player1.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite)
-                {
-                    this.hpGauge2.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
-                }
-                if(player1.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite)
-                {
-                    this.hpGauge3.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
-                }
-                if (player1.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
-                {
-                    this.hpGauge4.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
-                }
-                //공격 종료
-                this.delta2 = 0;
-                this.delta = 0;
-                attack = false;
+                this.hpGauge2.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge3.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge4.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+        }
+        if (player == this.player2)
+        {
+            if (player.GetComponent<SpriteRenderer>().sprite == player1.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge1.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge3.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge4.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+        }
+        if (player == this.player3)
+        {
+            if (player.GetComponent<SpriteRenderer>().sprite == player1.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge1.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge2.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player4.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge4.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+        }
+        if (player == this.player4)
+        {
+            if (player.GetComponent<SpriteRenderer>().sprite == player1.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge1.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player2.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge2.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+            if (player.GetComponent<SpriteRenderer>().sprite == player3.GetComponent<SpriteRenderer>().sprite)
+            {
+                this.hpGauge3.GetComponent<Image>().fillAmount -= Damage * Attacktimes;
+            }
+        }
+        
+    }
 
-            }
-        }
-		if(player1.GetComponent<SpriteRenderer>().sprite== player2.GetComponent<SpriteRenderer>().sprite)
-        {
-            
-        }
+
+    // Update is called once per frame
+    void Update () {
+        
+        
 	}
 }
