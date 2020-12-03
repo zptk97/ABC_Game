@@ -135,7 +135,7 @@ public class GameDirector : MonoBehaviour {
             this.Attacktimes = 4;
         }
         //데미지 결정
-        Damage = Random.Range(100, 150) / 100.0f;
+        Damage = Random.Range(5, 10) / 100.0f;
         
         this.Result.GetComponent<Text>().text = Damage*100+ " 대미지!!"+Attacktimes+" 대";
         //데미지 입히기
